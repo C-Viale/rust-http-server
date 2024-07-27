@@ -1,21 +1,16 @@
-use std::net::TcpListener;
-
-mod thread_pool;
-use thread_pool::ThreadPool;
-
-use http_server::handle_connection;
+use http_server::{
+  self,
+  server::{HttpServer, RequestHandler},
+};
 
 fn main() {
-  let listener = TcpListener::bind("127.0.0.1:3000").unwrap();
+  let server = HttpServer::new();
 
-  let pool = ThreadPool::new(4);
+  let handlers = vec![RequestHandler {
+    method: "GET",
+    path: "/teste",
+  }];
 
-  // accept connections and process them serially
-  for stream in listener.incoming() {
-    let stream = stream.unwrap();
-
-    pool.execute(|| {
-      handle_connection(stream);
-    });
-  }
+  // server.clone().bind_handlers(handlers);
+  server.listen(3000);
 }
