@@ -4,16 +4,16 @@ use std::{
   vec,
 };
 
-struct QueryParam {
-  key: String,
-  value: String,
+pub struct QueryParam {
+  pub key: String,
+  pub value: String,
 }
 
 pub struct HttpRequest {
-  method: String,
-  path: String,
-  query: Vec<QueryParam>,
-  content_type: String,
+  pub method: String,
+  pub path: String,
+  pub query: Vec<QueryParam>,
+  pub content_type: String,
 }
 
 pub fn parse_request(stream: &TcpStream) -> HttpRequest {

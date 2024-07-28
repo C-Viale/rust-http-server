@@ -1,16 +1,17 @@
 use http_server::{
-  self,
+  self, handlers,
   server::{HttpServer, RequestHandler},
 };
 
 fn main() {
-  let server = HttpServer::new();
+  let mut server = HttpServer::new();
 
-  let handlers = vec![RequestHandler {
+  let server_handlers = vec![RequestHandler {
     method: "GET",
-    path: "/teste",
+    path: "/users",
+    handler: Box::new(handlers::get_users),
   }];
 
-  // server.clone().bind_handlers(handlers);
+  server.bind_handlers(server_handlers);
   server.listen(3000);
 }
